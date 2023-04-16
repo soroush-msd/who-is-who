@@ -1,2 +1,2 @@
 # who-is-who
-Performing reference resolution in Prolog.
+Extending a definite clause garammar to Perform reference resolution in Prolog.
