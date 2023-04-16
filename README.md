@@ -9,6 +9,8 @@ run(S, Refs) :-
 	process(X, [], Refs),
 	listing(history/1).
 ```
+This predicate parses the input sentence (S) using the Sentence predicate. It then prints out the output sentence. The Process predicate then takes the parsed sentence and returns a list of references (Refs) corresponding to the list of pronouns in the sentence.
+
 
 ```
 ?- run([jack,found,his,telescope], Refs).
