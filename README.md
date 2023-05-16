@@ -13,16 +13,30 @@ This predicate parses the input sentence (S) using the Sentence predicate. It th
 
 
 ```
-?- run([jack,found,his,telescope], Refs).
-event(found,[actor(thing(jack,[])),object(possessive(his,thing(telescope,[])))])
+?- run([jack,lost,his,telescope], Refs).
+event(lost,[actor(thing(jack,[])),object(possessive(his,thing(telescope,[])))])
 :- dynamic history/1.
 
 history(thing(telescope, [isa(physical_object), gender(neutral), number(singular)])).
 history(thing(jack, [isa(person), gender(masculine), number(singular)])).
-history(event(found, [actor(thing(jack, [])), object(possessive(his, thing(telescope, [])))])).
-history(thing(wallet, [isa(physical_object), gender(neutral), number(singular)])).
-history(thing(john, [isa(person), gender(masculine), number(singular)])).
-history(event(lost, [actor(thing(john, [])), object(possessive(his, thing(wallet, [])))])).
+history(event(lost, [actor(thing(jack, [])), object(possessive(his, thing(telescope, [])))])).
 
 Refs = [jack] 
 ```
+From above, 'his' is a pronoun that is referring back to 'jack'. Therefore, Refs returns a list of references that has only one element inside ('jack').
+
+Now if we run the query below:
+
+```
+?- run([he,looked,for,it], X).
+event(looked,[actor(personal(he)),object(personal(it))])
+:- dynamic history/1.
+
+history(event(looked, [actor(personal(he)), object(personal(it))])).
+history(thing(telescope, [isa(physical_object), gender(neutral), number(singular)])).
+history(thing(jack, [isa(person), gender(masculine), number(singular)])).
+history(event(lost, [actor(thing(jack, [])), object(possessive(his, thing(telescope, [])))])).
+
+X = [jack, telescope] 
+```
+The output list contains two elements, 'jack' and 'telescope', as the input sentence has two references 'he' and 'it' that refer to those pronouns respectively.
